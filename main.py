@@ -1,16 +1,14 @@
+from collections import Counter
+
 def get_content(path="") :
-    with open(path,'r') as file :
-      return file.read();
+    try :
+        with open(path,'r') as file :
+            return file.read();
+    except (FileNotFoundError, OSError):
+        raise Exception("Either Permission not granted, or file not found!"); 
 
 def count_char(text="") :
-    char_map = {}
-    for char in text :
-        char = char.lower();
-        if char in char_map :
-            char_map[char] += 1;
-        else :
-            char_map[char] = 1;
-    return char_map
+    return Counter(x.lower() for x in text if x.isalpha());
 
 def count_words(content="") :
     words = content.split();
@@ -26,5 +24,6 @@ def main(path= "") :
             print(f"The '{k}' character was found times {v}");
     print("---- End of Report ----")
 
-main("books/frankenstein.txt")
+if __name__ == "__main__" :
+    main("books/frankenstein.txt")
 
